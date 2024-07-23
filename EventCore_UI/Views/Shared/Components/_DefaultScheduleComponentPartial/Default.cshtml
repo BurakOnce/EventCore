@@ -1,0 +1,222 @@
+﻿@model List<EventCore_UI.Dtos.EventsDtos.EventsDto>
+
+@{
+    var months = new List<string>();
+    var currentMonth = DateTime.Now.Month;
+    for (int i = 0; i < 4; i++)
+    {
+        months.Add(DateTime.Now.AddMonths(i).ToString("MMMM"));
+    }
+
+    var currentMonthNumber = DateTime.Now.Month;
+    var nextMonthNumber = DateTime.Now.AddMonths(1).Month;
+    var monthAfterNextNumber = DateTime.Now.AddMonths(2).Month;
+    var thirdMonthNumber = DateTime.Now.AddMonths(3).Month;
+
+    // Mevcut ve önümüzdeki 3 aya ait verileri filtreleyin
+    var currentMonthEvents = Model.Where(item => item.StartDate.Month == currentMonthNumber).ToList();
+    var nextMonthEvents = Model.Where(item => item.StartDate.Month == nextMonthNumber).ToList();
+    var monthAfterNextEvents = Model.Where(item => item.StartDate.Month == monthAfterNextNumber).ToList();
+    var thirdMonthEvents = Model.Where(item => item.StartDate.Month == thirdMonthNumber).ToList();
+}
+
+<style>
+    .nav-tabs {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 70px; 
+    }
+
+    .nav-item {
+        flex: 1;
+        text-align: center;
+    }
+
+    .nav-link {
+        width: 100%;
+    }
+
+    .tab-content {
+        margin-left: 70px; /* 70 piksel sağa kaydırma */
+    }
+
+    .card-header .btn-link {
+        font-size: 1.5rem; /* Başlık metnini büyütür */
+    }
+
+        .card-header .btn-link span {
+            font-size: 1.2rem; /* Tarih metnini büyütür */
+        }
+
+        .card-header .btn-link p {
+            font-size: 1.4rem; /* Başlık metnini büyütür */
+        }
+
+    .card-body {
+        font-size: 1.2rem; /* İçerik metnini büyütür */
+    }
+
+
+</style>
+
+<section class="accordion fix section-padding30">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-6">
+                <!-- Section Tittle -->
+                <div class="section-tittle text-center mb-80">
+                    <h2>Etkinlik Takvimi</h2>
+                    <p>Birçok şehirdeki farklı etkinlikleri inceleyebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-lg-11">
+                <div class="properties__button mb-40">
+                    <!--Nav Button  -->
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist" >
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">@months[0]</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">@months[1]</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">@months[2]</a>
+                            <a class="nav-item nav-link" id="nav-dinner-tab" data-toggle="tab" href="#nav-dinner" role="tab" aria-controls="nav-dinner" aria-selected="false">@months[3]</a>
+                        </div>
+                    </nav>
+                    <!--End Nav Button  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Nav Card -->
+        <div class="tab-content" id="nav-tabContent">
+
+            <!-- card one -->
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="accordion-wrapper">
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var item in currentMonthEvents.Select((value, index) => new { value, index }))
+                                {
+                                    <!-- single-one -->
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo-@item.index">
+                                            <h2 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo-@item.index" aria-expanded="false" aria-controls="collapseTwo-@item.index">
+                                                    <span>@item.value.StartDate.ToString("dd MMMM yyyy")</span>
+                                                    <p>@item.value.Title</p>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo-@item.index" class="collapse" aria-labelledby="headingTwo-@item.index" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <h5>@item.value.Subtitle</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Two -->
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="accordion-wrapper">
+                            <div class="accordion" id="accordionProfile">
+                                @foreach (var item in nextMonthEvents.Select((value, index) => new { value, index }))
+                                {
+                                    <!-- single-one -->
+                                    <div class="card">
+                                        <div class="card-header" id="headingProfile-@item.index">
+                                            <h2 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse" data-target="#collapseProfile-@item.index" aria-expanded="false" aria-controls="collapseProfile-@item.index">
+                                                    <span>@item.value.StartDate.ToString("dd MMMM yyyy")</span>
+                                                    <p>@item.value.Title</p>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseProfile-@item.index" class="collapse" aria-labelledby="headingProfile-@item.index" data-parent="#accordionProfile">
+                                            <div class="card-body">
+                                                <h5>@item.value.Subtitle</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Card three -->
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="accordion-wrapper">
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var item in monthAfterNextEvents.Select((value, index) => new { value, index }))
+                                {
+                                    <!-- single-one -->
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree-@item.index">
+                                            <h2 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse" data-target="#collapseThree-@item.index" aria-expanded="false" aria-controls="collapseThree-@item.index">
+                                                    <span>@item.value.StartDate.ToString("dd MMMM yyyy")</span>
+                                                    <p>@item.value.Title</p>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree-@item.index" class="collapse" aria-labelledby="headingThree-@item.index" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <h5>@item.value.Subtitle</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Four -->
+            <div class="tab-pane fade" id="nav-dinner" role="tabpanel" aria-labelledby="nav-dinner">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="accordion-wrapper">
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var item in thirdMonthEvents.Select((value, index) => new { value, index }))
+                                {
+                                    <!-- single-one -->
+                                    <div class="card">
+                                        <div class="card-header" id="headingFour-@item.index">
+                                            <h2 class="mb-0">
+                                                <a href="#" class="btn-link collapsed" data-toggle="collapse" data-target="#collapseFour-@item.index" aria-expanded="false" aria-controls="collapseFour-@item.index">
+                                                    <span>@item.value.StartDate.ToString("dd MMMM yyyy")</span>
+                                                    <p>@item.value.Title</p>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseFour-@item.index" class="collapse" aria-labelledby="headingFour-@item.index" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <h5>@item.value.Subtitle</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Nav Card -->
+    </div>
+</section>

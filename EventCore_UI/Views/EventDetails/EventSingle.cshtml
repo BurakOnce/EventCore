@@ -1,0 +1,123 @@
+﻿@model EventCore_UI.Dtos.EventDetailsDtos.EventDetailsDto
+@{
+    ViewData["Title"] = "EventSingle";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+<style>
+    .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 25%; 
+        right: 10%;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        padding: 15px;
+        max-width: 300px;
+        z-index: 9;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-container .btn {
+            margin-bottom: 10px; 
+            width: 100%; 
+        }
+
+        .form-container .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+        }
+
+        .form-container .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+        }
+
+    .single-post {
+        font-size: 22px; 
+        color: #2d2d2d; 
+    }
+
+        .single-post h2 {
+            font-size: 36px;
+        }
+
+    .blog-info-link li {
+        font-size: 24px;
+    }
+
+    .excert, .excert h5, .excert h6, .single-post p {
+        font-size: 22px; 
+    }
+
+    #toggleFormButton {
+        margin-top: 50px;
+    }
+</style>
+
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                    <div class="blog_details">
+                        <h2>@Model.Title</h2>
+                        <ul class="blog-info-link mt-3 mb-4">
+                            <li><i class="fa fa-calendar"></i> @Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")</li>
+                            <li><i class="fa fa-map-marker"></i> @Model.Location</li>
+                            @if (Model.IsOnline)
+                            {
+                                <li><i class="fa fa-desktop"></i> Online Event</li>
+                            }
+                            else
+                            {
+                                <li><i class="fa fa-users"></i> Capacity: @Model.Capacity</li>
+                            }
+                        </ul>
+                        <p class="excert">@Model.Description</p>
+                        <p class="excert">Speakers: @Model.Speakers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <button id="toggleFormButton" class="btn btn-primary mb-4">Bilet Ayır</button>
+                    <div class="form-popup" id="biletForm">
+                        <form class="form-container">
+                            <div class="form-group">
+                                <label for="isim">İsim:</label>
+                                <input type="text" class="form-control" id="isim" placeholder="İsminizi girin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-posta:</label>
+                                <input type="email" class="form-control" id="email" placeholder="E-posta adresinizi girin" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Gönder</button>
+                            <button type="button" class="btn btn-danger" onclick="closeForm()">Kapat</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    // Form açma fonksiyonu
+    document.getElementById("toggleFormButton").addEventListener("click", function () {
+        document.getElementById("biletForm").style.display = "block";
+    });
+
+    // Form kapatma fonksiyonu
+    function closeForm() {
+        document.getElementById("biletForm").style.display = "none";
+    }
+</script>

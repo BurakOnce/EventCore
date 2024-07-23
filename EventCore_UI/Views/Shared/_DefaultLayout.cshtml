@@ -1,0 +1,21 @@
+﻿<!doctype html>
+<html class="no-js" lang="zxx">
+
+    @await Component.InvokeAsync("_HeaderViewComponentPartial")
+
+    <body>
+
+    @RenderBody()
+
+    @await Component.InvokeAsync("_FooterViewComponentPartial")
+
+    <!-- Scroll Up -->
+    <div id="back-top" >
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+    </div>
+
+    <!-- JS here -->
+    @await Component.InvokeAsync("_ScriptViewComponentPartial")
+
+    </body>
+</html>
